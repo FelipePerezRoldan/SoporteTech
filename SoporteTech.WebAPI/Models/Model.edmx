@@ -1,0 +1,653 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SoporteTechDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Clientes">
+          <Key>
+            <PropertyRef Name="ClienteID" />
+          </Key>
+          <Property Name="ClienteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Correo" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="15" />
+          <Property Name="Direccion" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Equipos">
+          <Key>
+            <PropertyRef Name="EquipoID" />
+          </Key>
+          <Property Name="EquipoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClienteID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Modelo" Type="nvarchar" MaxLength="100" />
+          <Property Name="Serie" Type="nvarchar" MaxLength="100" />
+          <Property Name="FechaRegistro" Type="datetime" />
+        </EntityType>
+        <EntityType Name="HistorialTickets">
+          <Key>
+            <PropertyRef Name="HistorialID" />
+          </Key>
+          <Property Name="HistorialID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TicketID" Type="int" Nullable="false" />
+          <Property Name="UsuarioID" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="Comentario" Type="nvarchar(max)" />
+          <Property Name="EstadoAnterior" Type="nvarchar" MaxLength="50" />
+          <Property Name="EstadoNuevo" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Permisos">
+          <Key>
+            <PropertyRef Name="PermisoID" />
+          </Key>
+          <Property Name="PermisoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Recurso" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Metodo" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RolID" />
+          </Key>
+          <Property Name="RolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RolesPermisos">
+          <Key>
+            <PropertyRef Name="RolID" />
+            <PropertyRef Name="PermisoID" />
+          </Key>
+          <Property Name="RolID" Type="int" Nullable="false" />
+          <Property Name="PermisoID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="TicketID" />
+          </Key>
+          <Property Name="TicketID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClienteID" Type="int" Nullable="false" />
+          <Property Name="EquipoID" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Estado" Type="nvarchar" MaxLength="50" />
+          <Property Name="TecnicoID" Type="int" />
+          <Property Name="FechaCreacion" Type="datetime" />
+          <Property Name="FechaCierre" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TokensActivos">
+          <Key>
+            <PropertyRef Name="TokenID" />
+          </Key>
+          <Property Name="TokenID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UsuarioID" Type="int" Nullable="false" />
+          <Property Name="Token" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" />
+          <Property Name="Expiracion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="UsuarioID" />
+          </Key>
+          <Property Name="UsuarioID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Correo" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ContraseñaHash" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Salt" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="RolID" Type="int" Nullable="false" />
+          <Property Name="Activo" Type="bit" />
+          <Property Name="FechaCreacion" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__Equipos__Cliente__4E88ABD4">
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
+          <End Role="Equipos" Type="Self.Equipos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="ClienteID" />
+            </Principal>
+            <Dependent Role="Equipos">
+              <PropertyRef Name="ClienteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Historial__Ticke__59063A47">
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="1" />
+          <End Role="HistorialTickets" Type="Self.HistorialTickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tickets">
+              <PropertyRef Name="TicketID" />
+            </Principal>
+            <Dependent Role="HistorialTickets">
+              <PropertyRef Name="TicketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Historial__Usuar__59FA5E80">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="HistorialTickets" Type="Self.HistorialTickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="UsuarioID" />
+            </Principal>
+            <Dependent Role="HistorialTickets">
+              <PropertyRef Name="UsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RolesPerm__Permi__440B1D61">
+          <End Role="Permisos" Type="Self.Permisos" Multiplicity="1" />
+          <End Role="RolesPermisos" Type="Self.RolesPermisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permisos">
+              <PropertyRef Name="PermisoID" />
+            </Principal>
+            <Dependent Role="RolesPermisos">
+              <PropertyRef Name="PermisoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RolesPerm__RolID__4316F928">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="RolesPermisos" Type="Self.RolesPermisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RolID" />
+            </Principal>
+            <Dependent Role="RolesPermisos">
+              <PropertyRef Name="RolID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__Cliente__534D60F1">
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="ClienteID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="ClienteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__EquipoI__5441852A">
+          <End Role="Equipos" Type="Self.Equipos" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipos">
+              <PropertyRef Name="EquipoID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="EquipoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__Tecnico__5535A963">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="UsuarioID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="TecnicoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TokensAct__Usuar__47DBAE45">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="TokensActivos" Type="Self.TokensActivos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="UsuarioID" />
+            </Principal>
+            <Dependent Role="TokensActivos">
+              <PropertyRef Name="UsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuarios__RolID__3D5E1FD2">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RolID" />
+            </Principal>
+            <Dependent Role="Usuarios">
+              <PropertyRef Name="RolID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SoporteTechDBModelStoreContainer">
+          <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Equipos" EntityType="Self.Equipos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HistorialTickets" EntityType="Self.HistorialTickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permisos" EntityType="Self.Permisos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RolesPermisos" EntityType="Self.RolesPermisos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TokensActivos" EntityType="Self.TokensActivos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Equipos__Cliente__4E88ABD4" Association="Self.FK__Equipos__Cliente__4E88ABD4">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Equipos" EntitySet="Equipos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Historial__Ticke__59063A47" Association="Self.FK__Historial__Ticke__59063A47">
+            <End Role="Tickets" EntitySet="Tickets" />
+            <End Role="HistorialTickets" EntitySet="HistorialTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Historial__Usuar__59FA5E80" Association="Self.FK__Historial__Usuar__59FA5E80">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="HistorialTickets" EntitySet="HistorialTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RolesPerm__Permi__440B1D61" Association="Self.FK__RolesPerm__Permi__440B1D61">
+            <End Role="Permisos" EntitySet="Permisos" />
+            <End Role="RolesPermisos" EntitySet="RolesPermisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RolesPerm__RolID__4316F928" Association="Self.FK__RolesPerm__RolID__4316F928">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RolesPermisos" EntitySet="RolesPermisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__Cliente__534D60F1" Association="Self.FK__Tickets__Cliente__534D60F1">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__EquipoI__5441852A" Association="Self.FK__Tickets__EquipoI__5441852A">
+            <End Role="Equipos" EntitySet="Equipos" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__Tecnico__5535A963" Association="Self.FK__Tickets__Tecnico__5535A963">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TokensAct__Usuar__47DBAE45" Association="Self.FK__TokensAct__Usuar__47DBAE45">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="TokensActivos" EntitySet="TokensActivos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuarios__RolID__3D5E1FD2" Association="Self.FK__Usuarios__RolID__3D5E1FD2">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Usuarios" EntitySet="Usuarios" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SoporteTechDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="ClienteID" />
+          </Key>
+          <Property Name="ClienteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Equipos" Relationship="Self.FK__Equipos__Cliente__4E88ABD4" FromRole="Clientes" ToRole="Equipos" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__Cliente__534D60F1" FromRole="Clientes" ToRole="Tickets" />
+        </EntityType>
+        <EntityType Name="Equipos">
+          <Key>
+            <PropertyRef Name="EquipoID" />
+          </Key>
+          <Property Name="EquipoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClienteID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Modelo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Serie" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK__Equipos__Cliente__4E88ABD4" FromRole="Equipos" ToRole="Clientes" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__EquipoI__5441852A" FromRole="Equipos" ToRole="Tickets" />
+        </EntityType>
+        <EntityType Name="HistorialTicket">
+          <Key>
+            <PropertyRef Name="HistorialID" />
+          </Key>
+          <Property Name="HistorialID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TicketID" Type="Int32" Nullable="false" />
+          <Property Name="UsuarioID" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="Comentario" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EstadoAnterior" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EstadoNuevo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ticket" Relationship="Self.FK__Historial__Ticke__59063A47" FromRole="HistorialTickets" ToRole="Tickets" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Historial__Usuar__59FA5E80" FromRole="HistorialTickets" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Permiso">
+          <Key>
+            <PropertyRef Name="PermisoID" />
+          </Key>
+          <Property Name="PermisoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Recurso" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Metodo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Roles" Relationship="Self.RolesPermisos" FromRole="Permisos" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RolID" />
+          </Key>
+          <Property Name="RolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.FK__Usuarios__RolID__3D5E1FD2" FromRole="Roles" ToRole="Usuarios" />
+          <NavigationProperty Name="Permisos" Relationship="Self.RolesPermisos" FromRole="Roles" ToRole="Permisos" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="TicketID" />
+          </Key>
+          <Property Name="TicketID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClienteID" Type="Int32" Nullable="false" />
+          <Property Name="EquipoID" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TecnicoID" Type="Int32" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="3" />
+          <Property Name="FechaCierre" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK__Tickets__Cliente__534D60F1" FromRole="Tickets" ToRole="Clientes" />
+          <NavigationProperty Name="Equipos" Relationship="Self.FK__Tickets__EquipoI__5441852A" FromRole="Tickets" ToRole="Equipos" />
+          <NavigationProperty Name="HistorialTickets" Relationship="Self.FK__Historial__Ticke__59063A47" FromRole="Tickets" ToRole="HistorialTickets" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Tickets__Tecnico__5535A963" FromRole="Tickets" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="TokensActivo">
+          <Key>
+            <PropertyRef Name="TokenID" />
+          </Key>
+          <Property Name="TokenID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UsuarioID" Type="Int32" Nullable="false" />
+          <Property Name="Token" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="3" />
+          <Property Name="Expiracion" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__TokensAct__Usuar__47DBAE45" FromRole="TokensActivos" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="UsuarioID" />
+          </Key>
+          <Property Name="UsuarioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContraseñaHash" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Salt" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RolID" Type="Int32" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="HistorialTickets" Relationship="Self.FK__Historial__Usuar__59FA5E80" FromRole="Usuarios" ToRole="HistorialTickets" />
+          <NavigationProperty Name="Role" Relationship="Self.FK__Usuarios__RolID__3D5E1FD2" FromRole="Usuarios" ToRole="Roles" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__Tecnico__5535A963" FromRole="Usuarios" ToRole="Tickets" />
+          <NavigationProperty Name="TokensActivos" Relationship="Self.FK__TokensAct__Usuar__47DBAE45" FromRole="Usuarios" ToRole="TokensActivos" />
+        </EntityType>
+        <Association Name="FK__Equipos__Cliente__4E88ABD4">
+          <End Role="Clientes" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Equipos" Type="Self.Equipos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="ClienteID" />
+            </Principal>
+            <Dependent Role="Equipos">
+              <PropertyRef Name="ClienteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__Cliente__534D60F1">
+          <End Role="Clientes" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="ClienteID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="ClienteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__EquipoI__5441852A">
+          <End Role="Equipos" Type="Self.Equipos" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipos">
+              <PropertyRef Name="EquipoID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="EquipoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Historial__Ticke__59063A47">
+          <End Role="Tickets" Type="Self.Ticket" Multiplicity="1" />
+          <End Role="HistorialTickets" Type="Self.HistorialTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tickets">
+              <PropertyRef Name="TicketID" />
+            </Principal>
+            <Dependent Role="HistorialTickets">
+              <PropertyRef Name="TicketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Historial__Usuar__59FA5E80">
+          <End Role="Usuarios" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="HistorialTickets" Type="Self.HistorialTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="UsuarioID" />
+            </Principal>
+            <Dependent Role="HistorialTickets">
+              <PropertyRef Name="UsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuarios__RolID__3D5E1FD2">
+          <End Role="Roles" Type="Self.Role" Multiplicity="1" />
+          <End Role="Usuarios" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RolID" />
+            </Principal>
+            <Dependent Role="Usuarios">
+              <PropertyRef Name="RolID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__Tecnico__5535A963">
+          <End Role="Usuarios" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Tickets" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="UsuarioID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="TecnicoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TokensAct__Usuar__47DBAE45">
+          <End Role="Usuarios" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="TokensActivos" Type="Self.TokensActivo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="UsuarioID" />
+            </Principal>
+            <Dependent Role="TokensActivos">
+              <PropertyRef Name="UsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RolesPermisos">
+          <End Role="Permisos" Type="Self.Permiso" Multiplicity="*" />
+          <End Role="Roles" Type="Self.Role" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="SoporteTechDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clientes" EntityType="Self.Cliente" />
+          <EntitySet Name="Equipos" EntityType="Self.Equipos" />
+          <EntitySet Name="HistorialTickets" EntityType="Self.HistorialTicket" />
+          <EntitySet Name="Permisos" EntityType="Self.Permiso" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="Tickets" EntityType="Self.Ticket" />
+          <EntitySet Name="TokensActivos" EntityType="Self.TokensActivo" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK__Equipos__Cliente__4E88ABD4" Association="Self.FK__Equipos__Cliente__4E88ABD4">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Equipos" EntitySet="Equipos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__Cliente__534D60F1" Association="Self.FK__Tickets__Cliente__534D60F1">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__EquipoI__5441852A" Association="Self.FK__Tickets__EquipoI__5441852A">
+            <End Role="Equipos" EntitySet="Equipos" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Historial__Ticke__59063A47" Association="Self.FK__Historial__Ticke__59063A47">
+            <End Role="Tickets" EntitySet="Tickets" />
+            <End Role="HistorialTickets" EntitySet="HistorialTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Historial__Usuar__59FA5E80" Association="Self.FK__Historial__Usuar__59FA5E80">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="HistorialTickets" EntitySet="HistorialTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuarios__RolID__3D5E1FD2" Association="Self.FK__Usuarios__RolID__3D5E1FD2">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Usuarios" EntitySet="Usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__Tecnico__5535A963" Association="Self.FK__Tickets__Tecnico__5535A963">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TokensAct__Usuar__47DBAE45" Association="Self.FK__TokensAct__Usuar__47DBAE45">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="TokensActivos" EntitySet="TokensActivos" />
+          </AssociationSet>
+          <AssociationSet Name="RolesPermisos" Association="Self.RolesPermisos">
+            <End Role="Permisos" EntitySet="Permisos" />
+            <End Role="Roles" EntitySet="Roles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SoporteTechDBModelStoreContainer" CdmEntityContainer="SoporteTechDBEntities">
+          <EntitySetMapping Name="Clientes">
+            <EntityTypeMapping TypeName="SoporteTechDBModel.Cliente">
+              <MappingFragment StoreEntitySet="Clientes">
+                <ScalarProperty Name="ClienteID" ColumnName="ClienteID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Equipos">
+            <EntityTypeMapping TypeName="SoporteTechDBModel.Equipos">
+              <MappingFragment StoreEntitySet="Equipos">
+                <ScalarProperty Name="EquipoID" ColumnName="EquipoID" />
+                <ScalarProperty Name="ClienteID" ColumnName="ClienteID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="Serie" ColumnName="Serie" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HistorialTickets">
+            <EntityTypeMapping TypeName="SoporteTechDBModel.HistorialTicket">
+              <MappingFragment StoreEntitySet="HistorialTickets">
+                <ScalarProperty Name="HistorialID" ColumnName="HistorialID" />
+                <ScalarProperty Name="TicketID" ColumnName="TicketID" />
+                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="EstadoAnterior" ColumnName="EstadoAnterior" />
+                <ScalarProperty Name="EstadoNuevo" ColumnName="EstadoNuevo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permisos">
+            <EntityTypeMapping TypeName="SoporteTechDBModel.Permiso">
+              <MappingFragment StoreEntitySet="Permisos">
+                <ScalarProperty Name="PermisoID" ColumnName="PermisoID" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+                <ScalarProperty Name="Metodo" ColumnName="Metodo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="SoporteTechDBModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RolID" ColumnName="RolID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="SoporteTechDBModel.Ticket">
+              <MappingFragment StoreEntitySet="Tickets">
+                <ScalarProperty Name="TicketID" ColumnName="TicketID" />
+                <ScalarProperty Name="ClienteID" ColumnName="ClienteID" />
+                <ScalarProperty Name="EquipoID" ColumnName="EquipoID" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="TecnicoID" ColumnName="TecnicoID" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="FechaCierre" ColumnName="FechaCierre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TokensActivos">
+            <EntityTypeMapping TypeName="SoporteTechDBModel.TokensActivo">
+              <MappingFragment StoreEntitySet="TokensActivos">
+                <ScalarProperty Name="TokenID" ColumnName="TokenID" />
+                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="Expiracion" ColumnName="Expiracion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="SoporteTechDBModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuarios">
+                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="ContraseñaHash" ColumnName="ContraseñaHash" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="RolID" ColumnName="RolID" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="RolesPermisos" TypeName="SoporteTechDBModel.RolesPermisos" StoreEntitySet="RolesPermisos">
+            <EndProperty Name="Permisos">
+              <ScalarProperty Name="PermisoID" ColumnName="PermisoID" />
+            </EndProperty>
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="RolID" ColumnName="RolID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
