@@ -5,6 +5,12 @@ GO
 USE SoporteTechDB;
 GO
 
+-- Tabla: Roles
+CREATE TABLE Roles (
+    RolID INT IDENTITY PRIMARY KEY,
+    Nombre NVARCHAR(50) NOT NULL UNIQUE
+);
+
 -- Tabla: Usuarios
 CREATE TABLE Usuarios (
     UsuarioID INT IDENTITY PRIMARY KEY,
@@ -18,16 +24,10 @@ CREATE TABLE Usuarios (
     FOREIGN KEY (RolID) REFERENCES Roles(RolID)
 );
 
--- Tabla: Roles
-CREATE TABLE Roles (
-    RolID INT IDENTITY PRIMARY KEY,
-    Nombre NVARCHAR(50) NOT NULL UNIQUE
-);
-
 -- Tabla: Permisos
 CREATE TABLE Permisos (
     PermisoID INT IDENTITY PRIMARY KEY,
-    Recurso NVARCHAR(100) NOT NULL UNIQUE,
+    Recurso NVARCHAR(100) NOT NULL,
     Metodo NVARCHAR(10) DEFAULT 'GET'
 );
 
@@ -98,14 +98,3 @@ CREATE TABLE HistorialTickets (
     FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID)
 );
 
--- Insertar Roles Iniciales
-INSERT INTO Roles (Nombre) VALUES ('Administrador'), ('Técnico'), ('Cliente');
-
--- Insertar Permisos Iniciales
-INSERT INTO Permisos (Recurso, Metodo) VALUES 
-('/tickets', 'GET'),
-('/tickets', 'POST'),
-('/usuarios', 'GET'),
-('/usuarios', 'POST'),
-('/equipos', 'GET'),
-('/equipos', 'POST');
