@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
 
 namespace Servicios_PD.Clases
 {
@@ -14,7 +10,7 @@ namespace Servicios_PD.Clases
         public string PasswordCifrado { get; set; }
         public string Salt { get; set; }
         public bool CifrarClave()
-        {   
+        {
             byte[] saltBytes = GenerateSalt();
             // Hash the password with the salt
             PasswordCifrado = HashPassword(Password, saltBytes);

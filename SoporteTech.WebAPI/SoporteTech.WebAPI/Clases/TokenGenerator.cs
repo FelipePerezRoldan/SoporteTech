@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Web;
 
-namespace Servicios_6_8.Clases
+namespace SoporteTech.WebAPI.Clases
 {
     public static class TokenGenerator
     {
