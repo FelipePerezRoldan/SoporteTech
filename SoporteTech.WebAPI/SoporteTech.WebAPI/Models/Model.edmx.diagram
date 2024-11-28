@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1f882b12b3324017a8b52f2193418675" Name="Diagram1">
+        <EntityTypeShape EntityType="SoporteTechDBModel.Cliente" Width="1.5" PointX="8.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SoporteTechDBModel.Equipos" Width="1.5" PointX="8.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SoporteTechDBModel.HistorialTicket" Width="1.5" PointX="7.5" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SoporteTechDBModel.Permiso" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SoporteTechDBModel.Role" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SoporteTechDBModel.Ticket" Width="1.5" PointX="10.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SoporteTechDBModel.TokensActivo" Width="1.5" PointX="7.5" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SoporteTechDBModel.Usuario" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
+        <AssociationConnector Association="SoporteTechDBModel.FK__Equipos__Cliente__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="SoporteTechDBModel.FK__Tickets__Cliente__534D60F1" ManuallyRouted="false" />
+        <AssociationConnector Association="SoporteTechDBModel.FK__Tickets__EquipoI__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="SoporteTechDBModel.FK__Historial__Ticke__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="SoporteTechDBModel.FK__Historial__Usuar__59FA5E80" ManuallyRouted="false" />
+        <AssociationConnector Association="SoporteTechDBModel.FK__Usuarios__RolID__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="SoporteTechDBModel.FK__Tickets__Tecnico__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="SoporteTechDBModel.FK__TokensAct__Usuar__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="SoporteTechDBModel.RolesPermisos" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
