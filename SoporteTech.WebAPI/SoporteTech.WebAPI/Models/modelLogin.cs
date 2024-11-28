@@ -11,7 +11,7 @@
         public string Usuario { get; set; }
         public string Correo { get; set; }
         public string Rol { get; set; }
-        //public string PaginaInicio { get; set; }
+        public string PaginaInicio { get; set; }
         public bool Autenticado { get; set; }
         public string Token { get; set; }
         public string Mensaje { get; set; }

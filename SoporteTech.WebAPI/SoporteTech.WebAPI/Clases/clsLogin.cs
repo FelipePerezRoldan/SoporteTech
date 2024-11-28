@@ -30,7 +30,7 @@ namespace SoporteTech.WebAPI.Clases
                            Correo = U.Correo,
                            Autenticado = true,
                            Rol = R.Nombre,
-                           //PaginaInicio = P.PaginaNavegar,
+                           PaginaInicio = login.PaginaSolicitud,
                            Token = token,
                            Mensaje = ""
                        };

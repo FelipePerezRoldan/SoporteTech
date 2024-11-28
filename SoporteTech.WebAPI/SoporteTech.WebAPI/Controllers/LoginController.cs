@@ -6,8 +6,8 @@ using System.Web.Http.Cors;
 
 namespace SoporteTech.WebAPI.Controllers
 {
-    [EnableCors(origins: "https://localhost:44387", headers: "*", methods: "*")]
-    [RoutePrefix("api/Login")]
+    [EnableCors(origins: "http://localhost:63749/", headers: "*", methods: "*")]
+    [RoutePrefix("API/Login")]
     [AllowAnonymous]
     public class LoginController : ApiController
     {

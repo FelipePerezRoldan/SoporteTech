@@ -15,9 +15,9 @@ INSERT INTO Permisos (Recurso, Metodo) VALUES
 -- Insertar Usuarios Iniciales (con contraseñas ficticias)
 INSERT INTO Usuarios (Nombre, Correo, ContraseñaHash, Salt, RolID) 
 VALUES 
-('Admin Usuario', 'admin@soportetech.com', 'hashed_password_1', 'salt_1', 1),  -- Rol de Administrador
-('Tecnico Usuario', 'tecnico@soportetech.com', 'hashed_password_2', 'salt_2', 2),  -- Rol de Técnico
-('Cliente Usuario', 'cliente@soportetech.com', 'hashed_password_3', 'salt_3', 3); -- Rol de Cliente
+('Admin Usuario', 'admin@soportetech.com', 'hashedpassword1', 'SG9sYSBNdW5kbyA=', 1),  -- Rol de Administrador
+('Tecnico Usuario', 'tecnico@soportetech.com', 'hashedpassword2', 'QmFzZTY0IGVzIHV0aWw=', 2),  -- Rol de Técnico
+('Cliente Usuario', 'cliente@soportetech.com', 'hashedpassword3', 'IWWvU3RvIGVzIHVuIGVqZW1wbG8h', 3); -- Rol de Cliente
 
 -- Insertar RolesPermisos (Administrador tiene todos los permisos)
 INSERT INTO RolesPermisos (RolID, PermisoID)
