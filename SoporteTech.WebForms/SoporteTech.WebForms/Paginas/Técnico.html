@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tickets Asignados</title>
+    <link href="Estilos/css/all.min.css" rel="stylesheet" />
+    <link href="Estilos/adminlte.min.css" rel="stylesheet" />
+    <!-- Estilos adicionales para la tabla -->
+    <style>
+        .table th, .table td {
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini">
+    <!-- Página de Tickets Asignados -->
+    <section class="content" id="ticketsSection">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Tickets Asignados</h3>
+                        </div>
+                        <div class="card-body">
+                            <!-- Tabla de tickets -->
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Ticket ID</th>
+                                        <th>Fecha de Origen</th>
+                                        <th>Equipo</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ticketTableBody">
+                                    <!-- Los tickets se cargarán aquí dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal para actualizar el ticket -->
+    <div class="modal fade" id="ticketModal" tabindex="-1" aria-labelledby="ticketModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ticketModalLabel">Actualizar Ticket</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="txtTicketStatus">Estado del Ticket</label>
+                        <select class="form-control" id="txtTicketStatus">
+                            <option value="En progreso">En progreso</option>
+                            <option value="Completado">Completado</option>
+                            <option value="Pendiente">Pendiente</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtComentario">Comentario</label>
+                        <textarea class="form-control" id="txtComentario" rows="3" placeholder="Ingrese un comentario"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="saveTicketBtn">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/bootstrap.bundle.min.js"></script>
+    <script src="../Scripts/select2.min.js"></script>
+    <script src="Scripts/Técnico.js"></script>
+</body>
+</html>

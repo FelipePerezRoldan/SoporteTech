@@ -194,11 +194,14 @@
     <Content Include="Paginas\Pagina1.html" />
     <Content Include="Paginas\Pagina2.html" />
     <Content Include="Paginas\PaginaBase.html" />
+    <Content Include="Paginas\Registro.html" />
     <Content Include="Paginas\Scripts\Comunes\Comunes.js" />
     <Content Include="Paginas\Scripts\Comunes\CRUD.js" />
     <Content Include="Paginas\Scripts\Login.js" />
     <Content Include="Paginas\Scripts\Pagina1.js" />
     <Content Include="Paginas\Scripts\Pagina2.js" />
+    <Content Include="Paginas\Scripts\Técnico.js" />
+    <Content Include="Paginas\Técnico.html" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
