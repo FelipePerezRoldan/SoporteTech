@@ -1,6 +1,8 @@
 ﻿using Servicios_PD.Clases;
 using SoporteTech.WebAPI.Models;
 using System;
+using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Linq;
 
 namespace SoporteTech.WebAPI.Clases
@@ -12,7 +14,7 @@ namespace SoporteTech.WebAPI.Clases
         public LoginRespuesta loginRespuesta { get; set; }
         public clsLogin()
         {
-            login = new Login();
+            loginRespuesta = new LoginRespuesta();
         }
         public IQueryable<LoginRespuesta> Ingresar()
         {
@@ -36,8 +38,7 @@ namespace SoporteTech.WebAPI.Clases
             }
             else
             {
-                //return (IQueryable<LoginRespuesta>)loginRespuesta;
-                return null;
+                return null ;
             }
         }
         public bool ValidarUsuario()

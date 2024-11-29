@@ -1,43 +1,29 @@
 ﻿class Login {
-    constructor(Correo, Clave, Rol) {
+    constructor(Correo, Clave, PaginaSolicitud) {
         this.Correo = Correo;
         this.Clave = Clave;
-        this.Rol = Rol;
+        this.PaginaSolicitud = PaginaSolicitud;
     }
 }
 async function Ingresar() {
-    /*let URL = "http://localhost:63749/API/Login/Ingresar";*/
-    const login = new Login($("#txtUsuario").val(), $("#txtClave").val(), $("#cboRol").val()); 
-    try {
-        const Resultado = await fetch("http://localhost:63749/API/Login/Ingresar",
-            {
-                method: "POST",
-                mode: "cors",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(login)
-            });
-        const Respuesta = await Resultado.json();
-        return Respuesta;
-    }
-    catch (error) {
-        $("#dvMensaje").html(error);
-    }
-    alert("Datos: " + JSON.stringify(Respuesta))
+    const login = new Login($("#txtUsuario").val(), $("#txtClave").val(), $("#cboRol").val());   
+    const Respuesta = await EjecutarServicioRpta("POST", "http://localhost:63749/API/Login/Ingresar", login);
     $("#dvMensaje").removeClass("alert alert-success");
     $("#dvMensaje").addClass("alert alert-danger");
-    if (Respuesta == undefined) {
+    if (Respuesta == undefined)
+    {
         document.cookie = "token=0;path=/";
-        //Hubo un error al procesar el comando
-        $("#dvMensaje").html("Usuario o contraseña errados");
+        $("#dvMensaje").html("Usuario o contraseña errados");       
     }
-    else {
-        if (Respuesta.length == 0) {
-            $("#dvMensaje").html("El usuario no está registrado u olvidó la clave");
+    else
+    {
+        if (Respuesta.length == 0)
+        {
+            $("#dvMensaje").html("El usuario no está registrado, olvidó la clave o seleccionó mal su rol");
             return;
         }
-        if (Respuesta[0].Autenticado == true) {
+        if (Respuesta[0].Autenticado)
+        {
             const extdays = 5;
             const d = new Date();
             d.setTime(d.getTime() + (extdays * 24 * 60 * 60 * 1000));
@@ -52,7 +38,8 @@ async function Ingresar() {
             //alert(Respuesta[0].Perfil);
             window.location.href = Respuesta[0].PaginaInicio;
         }
-        else {
+        else
+        {
             $("#dvMensaje").html("El usuario no tiene permisos");
         }
     }
