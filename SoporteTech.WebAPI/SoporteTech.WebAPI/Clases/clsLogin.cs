@@ -30,7 +30,7 @@ namespace SoporteTech.WebAPI.Clases
                            Usuario = U.Nombre,
                            Correo = U.Correo,
                            Rol = R.Nombre,
-                           PaginaInicio = "PaginaBase.html",
+                           PaginaInicio = R.Nombre + ".html",
                            Autenticado = true,
                            Token = token,
                            Mensaje = ""
