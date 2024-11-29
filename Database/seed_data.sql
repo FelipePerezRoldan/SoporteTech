@@ -82,4 +82,4 @@ Select U.Nombre, U.Correo, R.Nombre
 From Usuarios U 
 Join Roles R
 ON U.RolID = R.RolID
-Where U.Correo = 'admin@soportetech.com' and U.ContraseñaHash = 'hashed_password_1'
+Where U.Correo = 'admin@soportetech.com' and U.ContraseñaHash = 'hashedpassword1'
