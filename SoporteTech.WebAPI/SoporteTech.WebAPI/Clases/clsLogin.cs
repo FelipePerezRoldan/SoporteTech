@@ -12,7 +12,7 @@ namespace SoporteTech.WebAPI.Clases
         public LoginRespuesta loginRespuesta { get; set; }
         public clsLogin()
         {
-            loginRespuesta = new LoginRespuesta();
+            login = new Login();
         }
         public IQueryable<LoginRespuesta> Ingresar()
         {
@@ -22,15 +22,14 @@ namespace SoporteTech.WebAPI.Clases
                 return from U in dbSoporteTech.Set<Usuario>()
                        join R in dbSoporteTech.Set<Role>()
                        on U.RolID equals R.RolID
-                       where U.Correo == login.Correo &&
-                             U.ContraseñaHash == login.Clave
+                       where U.Correo == login.Correo && U.ContraseñaHash == login.Clave
                        select new LoginRespuesta
                        {
                            Usuario = U.Nombre,
                            Correo = U.Correo,
-                           Autenticado = true,
                            Rol = R.Nombre,
-                           PaginaInicio = login.PaginaSolicitud,
+                           PaginaInicio = "PaginaBase.html",
+                           Autenticado = true,
                            Token = token,
                            Mensaje = ""
                        };
@@ -53,9 +52,10 @@ namespace SoporteTech.WebAPI.Clases
                     loginRespuesta.Mensaje = "Usuario no existe";
                     return false;
                 }
-                byte[] arrBytesSalt = Convert.FromBase64String(usuario.Salt);
-                string ClaveCifrada = cifrar.HashPassword(login.Clave, arrBytesSalt);
-                login.Clave = ClaveCifrada;
+                //cifra la clave
+                //byte[] arrBytesSalt = Convert.FromBase64String(usuario.Salt);
+                //string ClaveCifrada = cifrar.HashPassword(login.Clave, arrBytesSalt);
+                //login.Clave = ClaveCifrada;
                 return true;
             }
             catch (Exception ex)

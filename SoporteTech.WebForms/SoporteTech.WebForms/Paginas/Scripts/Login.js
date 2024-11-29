@@ -1,13 +1,36 @@
-﻿async function Ingresar() {
-    let URL = "https://localhost:44323/api/Login/Ingresar";
-    const login = new Login($("#txtUsuario").val(), $("#txtClave").val());
-    const Respuesta = await EjecutarServicioRpta("POST", URL, login);
+﻿class Login {
+    constructor(Correo, Clave, Rol) {
+        this.Correo = Correo;
+        this.Clave = Clave;
+        this.Rol = Rol;
+    }
+}
+async function Ingresar() {
+    /*let URL = "http://localhost:63749/API/Login/Ingresar";*/
+    const login = new Login($("#txtUsuario").val(), $("#txtClave").val(), $("#cboRol").val()); 
+    try {
+        const Resultado = await fetch("http://localhost:63749/API/Login/Ingresar",
+            {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(login)
+            });
+        const Respuesta = await Resultado.json();
+        return Respuesta;
+    }
+    catch (error) {
+        $("#dvMensaje").html(error);
+    }
+    alert("Datos: " + JSON.stringify(Respuesta))
     $("#dvMensaje").removeClass("alert alert-success");
     $("#dvMensaje").addClass("alert alert-danger");
     if (Respuesta == undefined) {
         document.cookie = "token=0;path=/";
         //Hubo un error al procesar el comando
-        $("#dvMensaje").html("El usuario no está registrado u olvidó la clave");
+        $("#dvMensaje").html("Usuario o contraseña errados");
     }
     else {
         if (Respuesta.length == 0) {
@@ -32,11 +55,5 @@
         else {
             $("#dvMensaje").html("El usuario no tiene permisos");
         }
-    }
-}
-class Login {
-    constructor(Usuario, Clave) {
-        this.Usuario = Usuario;
-        this.Clave = Clave;
     }
 }
