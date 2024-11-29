@@ -22,7 +22,7 @@ namespace SoporteTech.WebAPI.Clases
                 return from U in dbSoporteTech.Set<Usuario>()
                        join R in dbSoporteTech.Set<Role>()
                        on U.RolID equals R.RolID
-                       where U.Correo == login.Correo && U.ContraseñaHash == login.Clave
+                       where U.Correo == login.Correo && U.ContraseñaHash == login.Clave && R.Nombre == login.PaginaSolicitud
                        select new LoginRespuesta
                        {
                            Usuario = U.Nombre,
