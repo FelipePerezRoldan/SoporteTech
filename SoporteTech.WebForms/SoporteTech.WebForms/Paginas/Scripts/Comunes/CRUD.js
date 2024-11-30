@@ -168,21 +168,19 @@ async function LlenarComboXServiciosAuth(URLServicio, ComboLlenar) {
     }
 }
 async function LlenarTablaXServicios(URLServicio, TablaLlenar) {
-    //Invocamos el servicio a través del fetch, usando el método fetch de javascript
     try {
-        const Respuesta = await fetch(URLServicio,
+        const Resultado = await fetch(URLServicio,
             {
                 method: "GET",
                 mode: "cors",
                 headers: {
                     "Content-Type": "application/json"
-                }
+                },
+                body: JSON.stringify(objeto)
             });
-        const Rpta = await Respuesta.json();
-        //Se recorre en un ciclo para llenar la tabla, con encabezados y los campos
-        //Llena el encabezado
+        const Respuesta = await Resultado.json();
         var Columnas = [];
-        NombreColumnas = Object.keys(Rpta[0]);
+        NombreColumnas = Object.keys(Respuesta[0]);
         for (var i in NombreColumnas) {
             Columnas.push({
                 data: NombreColumnas[i],

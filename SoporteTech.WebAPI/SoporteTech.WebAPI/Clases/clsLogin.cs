@@ -1,7 +1,6 @@
 ﻿using Servicios_PD.Clases;
 using SoporteTech.WebAPI.Models;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Linq;
 
@@ -38,7 +37,7 @@ namespace SoporteTech.WebAPI.Clases
             }
             else
             {
-                return null ;
+                return null;
             }
         }
         public bool ValidarUsuario()

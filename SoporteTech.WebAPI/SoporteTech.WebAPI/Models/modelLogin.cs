@@ -1,4 +1,6 @@
-﻿namespace SoporteTech.WebAPI.Models
+﻿using System;
+
+namespace SoporteTech.WebAPI.Models
 {
     public class Login
     {
@@ -15,5 +17,12 @@
         public bool Autenticado { get; set; }
         public string Token { get; set; }
         public string Mensaje { get; set; }
+    }
+    public class TicketRespuesta
+    {
+        public int TicketID { get; set; }
+        public Nullable<System.DateTime> FechaCreacion { get; set; }
+        public string Equipo {  get; set; }
+        public string Descripcion { get; set; }
     }
 }

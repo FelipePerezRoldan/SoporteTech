@@ -70,13 +70,15 @@ VALUES
 -- Verificación
 SELECT * FROM Clientes;
 SELECT * FROM Equipos;
-SELECT * FROM HistorialTickets;
+
 SELECT * FROM Permisos;
 SELECT * FROM Roles;
 SELECT * FROM RolesPermisos;
 SELECT * FROM Tickets;
+SELECT * FROM HistorialTickets;
 SELECT * FROM TokensActivos;
 SELECT * FROM Usuarios;
+SELECT * FROM Equipos;
 
 Select U.Nombre, U.Correo, R.Nombre
 From Usuarios U 

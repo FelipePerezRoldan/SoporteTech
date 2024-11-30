@@ -1,85 +1,112 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tickets Asignados</title>
-    <link href="Estilos/css/all.min.css" rel="stylesheet" />
-    <link href="Estilos/adminlte.min.css" rel="stylesheet" />
-    <!-- Estilos adicionales para la tabla -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualización de Tickets</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
     <style>
-        .table th, .table td {
-            text-align: center;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
         }
     </style>
 </head>
-<body class="hold-transition sidebar-mini">
-    <!-- Página de Tickets Asignados -->
-    <section class="content" id="ticketsSection">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Tickets Asignados</h3>
-                        </div>
-                        <div class="card-body">
-                            <!-- Tabla de tickets -->
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Ticket ID</th>
-                                        <th>Fecha de Origen</th>
-                                        <th>Equipo</th>
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="ticketTableBody">
-                                    <!-- Los tickets se cargarán aquí dinámicamente -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<body>
 
-    <!-- Modal para actualizar el ticket -->
-    <div class="modal fade" id="ticketModal" tabindex="-1" aria-labelledby="ticketModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ticketModalLabel">Actualizar Ticket</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="txtTicketStatus">Estado del Ticket</label>
-                        <select class="form-control" id="txtTicketStatus">
-                            <option value="En progreso">En progreso</option>
-                            <option value="Completado">Completado</option>
-                            <option value="Pendiente">Pendiente</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="txtComentario">Comentario</label>
-                        <textarea class="form-control" id="txtComentario" rows="3" placeholder="Ingrese un comentario"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="saveTicketBtn">Guardar cambios</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="../Scripts/jquery-3.4.1.min.js"></script>
-    <script src="../Scripts/bootstrap.bundle.min.js"></script>
-    <script src="../Scripts/select2.min.js"></script>
-    <script src="Scripts/Técnico.js"></script>
+    <h1>Lista de Tickets</h1>
+    <button id="btnCargarTickets">Cargar Tickets</button>
+
+    <table id="ticketsTable" class="display">
+        <thead>
+            <tr>
+                <th>Ticket ID</th>
+                <th>Fecha de Creación</th>
+                <th>Equipo</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Las filas se llenarán con los datos -->
+        </tbody>
+    </table>
+
+    <div id="dvMensaje"></div> <!-- Para mostrar errores -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script>
+        // Función para cargar los datos de la tabla
+        async function cargarDatosTabla() {
+            const URLServicio = "http://localhost:63749/API/Tickets/ListarTickets"; // URL del servidor
+            const TablaLlenar = "#ticketsTable"; // Selector de la tabla
+
+            try {
+                const resultado = await fetch(URLServicio,
+                    {
+                    method: "GET",
+                    mode: "cors", // Permite solicitudes de otros orígenes
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                const respuesta = await resultado.json(); // Convertir la respuesta en formato JSON
+
+                // Verifica si se recibieron datos
+                if (respuesta && respuesta.length > 0) {
+                    // Generar las columnas de la tabla a partir de los nombres de las propiedades de los objetos
+                    let columnas = [];
+                    const nombreColumnas = Object.keys(respuesta[0]); // Obtener los nombres de las columnas
+
+                    for (let i in nombreColumnas) {
+                        columnas.push({
+                            data: nombreColumnas[i],    // Datos que se usarán para cada columna
+                            title: nombreColumnas[i]    // Título de la columna
+                        });
+                    }
+
+                    // Inicializar DataTable
+                    $(TablaLlenar).DataTable({
+                        data: respuesta,    // Datos de la respuesta
+                        columns: columnas,  // Definición de las columnas
+                        destroy: true        // Permite destruir y recrear la tabla si ya existe
+                    });
+                } else {
+                    throw new Error("No se encontraron tickets.");
+                }
+            } catch (error) {
+                // Mostrar el error en el div de mensajes
+                $("#dvMensaje").html(`<span style="color:red">${error.message}</span>`);
+            }
+        }
+
+        // Asignar el evento al botón para cargar los tickets
+        document.getElementById("btnCargarTickets").addEventListener("click", function () {
+            cargarDatosTabla();  // Invocar la función para cargar los datos
+        });
+    </script>
+
 </body>
 </html>
